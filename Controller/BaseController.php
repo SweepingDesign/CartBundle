@@ -10,7 +10,6 @@ use FOS\RestBundle\View\RouteRedirectView;
 use FOS\RestBundle\View\View;
 use Leaphly\Cart\Model\CartInterface;
 use Leaphly\Cart\Handler\CartHandlerInterface;
-use FOS\RestBundle\Util\Codes;
 
 /**
  * BaseController adds some helpers to FOSRestController
@@ -52,7 +51,7 @@ abstract class BaseController extends ContainerAware
      *
      * @return View
      */
-    protected function redirectView($url, $statusCode = Codes::HTTP_FOUND, array $headers = array())
+    protected function redirectView($url, $statusCode = Response::HTTP_FOUND, array $headers = array())
     {
         return RedirectView::create($url, $statusCode, $headers);
     }
@@ -69,7 +68,7 @@ abstract class BaseController extends ContainerAware
      *
      * @return View
      */
-    protected function routeRedirectView($route, array $parameters = array(), $statusCode = Codes::HTTP_CREATED, array $headers = array())
+    protected function routeRedirectView($route, array $parameters = array(), $statusCode = Response::HTTP_CREATED, array $headers = array())
     {
         return RouteRedirectView::create($route, $parameters, $statusCode, $headers);
     }

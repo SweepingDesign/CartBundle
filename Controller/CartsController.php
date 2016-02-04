@@ -3,7 +3,7 @@
 namespace Leaphly\CartBundle\Controller;
 
 use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use FOS\RestBundle\Util\Codes;
+use Symfony\Component\HttpFoundation\Response;
 use FOS\RestBundle\View\View;
 
 use Leaphly\Cart\Exception\InvalidFormException;
@@ -60,7 +60,7 @@ class CartsController extends BaseController
      * )
      *
      * @api
-     * @Annotations\View(statusCode = Codes::HTTP_NO_CONTENT)
+     * @Annotations\View(statusCode = Response::HTTP_NO_CONTENT)
      *
      * @param Request $request the request object
      * @param int     $cart_id the cart id
@@ -98,7 +98,7 @@ class CartsController extends BaseController
      *
      * @Annotations\View(
      *   template = "AcmeCartBundle:Cart:newCart.html.twig",
-     *   statusCode = Codes::HTTP_BAD_REQUEST
+     *   statusCode = Response::HTTP_BAD_REQUEST
      * )
      *
      * @param Request $request the request object
@@ -118,7 +118,7 @@ class CartsController extends BaseController
             '_format' =>  $request->get('_format')
         );
 
-        return $this->routeRedirectView('api_1_get_cart', $routeOptions, Codes::HTTP_CREATED);
+        return $this->routeRedirectView('api_1_get_cart', $routeOptions, Response::HTTP_CREATED);
     }
 
     /**
@@ -136,7 +136,7 @@ class CartsController extends BaseController
      *
      * @Annotations\View(
      *   template="AcmeDemoBundle:Cart:editCart.html.twig",
-     *   statusCode = Codes::HTTP_BAD_REQUEST
+     *   statusCode = Response::HTTP_BAD_REQUEST
      * )
      *
      * @param Request $request the request object
@@ -149,10 +149,10 @@ class CartsController extends BaseController
         try {
             if (!($cart = $this->cartHandler->getCart($cart_id))) {
                 $cart = $this->cartHandler->postCart($request->request->all());
-                $statusCode = Codes::HTTP_CREATED;
+                $statusCode = Response::HTTP_CREATED;
             } else {
                 $cart = $this->cartHandler->putCart($cart, $request->request->all());
-                $statusCode = Codes::HTTP_NO_CONTENT;
+                $statusCode = Response::HTTP_NO_CONTENT;
             }
         } catch (InvalidFormException $exception) {
             return array('form' => $exception->getForm());
@@ -180,7 +180,7 @@ class CartsController extends BaseController
      *
      * @Annotations\View(
      *   template="AcmeDemoBundle:Cart:editCart.html.twig",
-     *   statusCode = Codes::HTTP_BAD_REQUEST
+     *   statusCode = Response::HTTP_BAD_REQUEST
      * )
      *
      * @param Request $request the request object
@@ -203,6 +203,6 @@ class CartsController extends BaseController
             '_format' =>  $request->get('_format')
         );
 
-        return $this->routeRedirectView('api_1_get_cart', $routeOptions, Codes::HTTP_NO_CONTENT);
+        return $this->routeRedirectView('api_1_get_cart', $routeOptions, Response::HTTP_NO_CONTENT);
     }
 }
